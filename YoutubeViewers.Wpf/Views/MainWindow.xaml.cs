@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YoutubeViewers.Wpf.ViewModels;
 
 namespace YoutubeViewers.Wpf
 {
@@ -19,6 +20,9 @@ namespace YoutubeViewers.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
+            ((MainWindowViewModel)this.DataContext).Instance = (MainWindowViewModel)this.DataContext;
+            ((MainWindowViewModel)this.DataContext).CurrentViewContent = new Views.YoutubeViewersView();
         }
     }
 }

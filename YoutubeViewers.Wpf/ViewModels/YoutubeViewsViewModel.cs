@@ -14,23 +14,20 @@ namespace YoutubeViewers.Wpf.ViewModels
     internal class YoutubeViewsViewModel : ViewModelBase
     {
         private YoutubeViewsViewModel _Instance;
-        private ObservableCollection<YoutubeUsers> _YoutuberViewersList = new(new Database().GetYoutubeUsers());
-        private YoutubeUsers _SelectedYoutubeUser = null;
-        public string DisplayUsername => SelectedYoutubeUser?.Username ?? "Please select a username";
-
-        public YoutubeUsers SelectedYoutubeUser
+        public YoutubeViewsViewModel Instance
         {
             get
             {
-                return _SelectedYoutubeUser;
+                return _Instance;
             }
             set
             {
-                _SelectedYoutubeUser = value;
-                this.OnPropertyChanged(nameof(SelectedYoutubeUser));
-                this.OnPropertyChanged(nameof(DisplayUsername));
+                _Instance = value;
+                this.OnPropertyChanged(nameof(Instance));
             }
         }
+
+        private ObservableCollection<YoutubeUsers> _YoutuberViewersList = new(new Database().GetYoutubeUsers());
         public ObservableCollection<YoutubeUsers> YoutuberViewersList
         {
             get
@@ -44,18 +41,21 @@ namespace YoutubeViewers.Wpf.ViewModels
             }
         }
 
-        public YoutubeViewsViewModel Instance
+        private YoutubeUsers _SelectedYoutubeUser = null;
+        public YoutubeUsers SelectedYoutubeUser
         {
             get
             {
-                return _Instance;
+                return _SelectedYoutubeUser;
             }
             set
             {
-                _Instance = value;
-                this.OnPropertyChanged(nameof(Instance));
+                _SelectedYoutubeUser = value;
+                this.OnPropertyChanged(nameof(SelectedYoutubeUser));
+                this.OnPropertyChanged(nameof(DisplayUsername));
             }
         }
+        public string DisplayUsername => SelectedYoutubeUser?.Username ?? "Please select a username";
 
         public ICommand AddYoutubeUser { get; } = new Commands.CommandsBase((x) =>
         {
