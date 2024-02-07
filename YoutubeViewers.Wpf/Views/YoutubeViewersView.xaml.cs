@@ -24,8 +24,6 @@ namespace YoutubeViewers.Wpf.Views
         public YoutubeViewersView()
         {
             InitializeComponent();
-            this.DataContext = new YoutubeViewsViewModel();
-            ((YoutubeViewsViewModel)this.DataContext).Instance = (YoutubeViewsViewModel)this.DataContext;
         }
     }
 }

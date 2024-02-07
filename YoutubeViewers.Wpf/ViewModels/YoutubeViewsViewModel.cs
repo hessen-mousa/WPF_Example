@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using YoutubeViewers.Wpf.BusinessLogic;
+using YoutubeViewers.Wpf.Commands;
 using YoutubeViewers.Wpf.Models;
 
 
@@ -13,20 +14,6 @@ namespace YoutubeViewers.Wpf.ViewModels
 {
     internal class YoutubeViewsViewModel : ViewModelBase
     {
-        private YoutubeViewsViewModel _Instance;
-        public YoutubeViewsViewModel Instance
-        {
-            get
-            {
-                return _Instance;
-            }
-            set
-            {
-                _Instance = value;
-                this.OnPropertyChanged(nameof(Instance));
-            }
-        }
-
         private ObservableCollection<YoutubeUsers> _YoutuberViewersList = new(new Database().GetYoutubeUsers());
         public ObservableCollection<YoutubeUsers> YoutuberViewersList
         {
@@ -57,17 +44,24 @@ namespace YoutubeViewers.Wpf.ViewModels
         }
         public string DisplayUsername => SelectedYoutubeUser?.Username ?? "Please select a username";
 
-        public ICommand AddYoutubeUser { get; } = new Commands.CommandsBase((x) =>
-        {
-            YoutubeViewsViewModel vm = (YoutubeViewsViewModel)x;
-            vm.YoutuberViewersList.Add(new YoutubeUsers { Username = "Markus", IsMember = false, IsSubscribed = true });
-        });
+        public ICommand RemoveYoutubeUserCommand { get; set; }
 
-        public ICommand RemoveYoutubeUser { get; } = new Commands.CommandsBase((x) =>
-        {
-            YoutubeViewsViewModel vm = (YoutubeViewsViewModel)x;
-            vm.YoutuberViewersList.Remove(vm.YoutuberViewersList.Last());
+        public ICommand AddYoutubeUserCommand { get;set; }
 
-        });
+        public YoutubeViewsViewModel()
+        {
+            RemoveYoutubeUserCommand = new RelayCommand(OnRemoveCommandExcute);
+            AddYoutubeUserCommand = new RelayCommand(OnAddYoutubeUserCommandExcute);
+        }
+
+        private void OnAddYoutubeUserCommandExcute(object sender)
+        {
+            this.YoutuberViewersList.Add(new YoutubeUsers { Username = "Markus", IsMember = false, IsSubscribed = true });
+
+        }
+        private void OnRemoveCommandExcute(object sender)
+        {
+            this.YoutuberViewersList.Remove(this.YoutuberViewersList.Last());
+        }
     }
 }

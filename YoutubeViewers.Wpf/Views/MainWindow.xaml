@@ -6,11 +6,14 @@
         xmlns:local="clr-namespace:YoutubeViewers.Wpf"
         xmlns:views="clr-namespace:YoutubeViewers.Wpf.Views" 
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:viewmodels="clr-namespace:YoutubeViewers.Wpf.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        xmlns:viewmodels="clr-namespace:YoutubeViewers.Wpf.ViewModels"
         mc:Ignorable="d"
         Title="WPF_MVVN" Height="600" Width="1000"
         FontSize="14"
         Icon="/Views/csb.png">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -25,7 +28,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="Youtube Viewers" FontSize="32"/>
-                <Button Grid.Column="1" Content="Add User Account" FontSize="16" Style="{StaticResource MaterialDesignRaisedButton}" Command="{Binding SwitchViewCommand}" CommandParameter="{Binding Instance}"/>
+                <Button Grid.Column="1" Content="Add User Account" FontSize="16" Style="{StaticResource MaterialDesignRaisedButton}" Command="{Binding SwitchViewCommand}"/>
             </Grid>
         </materialDesign:Card>
         <ContentControl Grid.Row="1" Content="{Binding CurrentViewContent}"/>

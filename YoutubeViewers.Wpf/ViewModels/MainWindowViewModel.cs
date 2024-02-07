@@ -10,36 +10,10 @@ namespace YoutubeViewers.Wpf.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
-        private MainWindowViewModel _Instance;
-        public MainWindowViewModel Instance
-        {
-            get
-            {
-                return _Instance;
-            }
-            set
-            {
-                _Instance = value;
-                this.OnPropertyChanged(nameof(Instance));
-            }
-        }
-
-
         public enum ActiveView
         {
             YoutubeViewers,
             AddUserAccount
-        }
-
-        private ActiveView _currentView;
-        public ActiveView CurrentView
-        {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged(nameof(CurrentView));
-            }
         }
 
         private object _currentViewContent;
@@ -53,19 +27,37 @@ namespace YoutubeViewers.Wpf.ViewModels
             }
         }
 
-        public ICommand SwitchViewCommand { get; } = new Commands.CommandsBase((x) =>
+        public ICommand SwitchViewCommand { get; }
+
+        private ActiveView _currentView;
+        public ActiveView CurrentView
         {
-            MainWindowViewModel vm = (MainWindowViewModel)x;
-            if (vm.CurrentView == ActiveView.YoutubeViewers)
+            get => _currentView;
+            set
             {
-                vm.CurrentViewContent = new AddUserAccountView();
-                vm.CurrentView = ActiveView.AddUserAccount;
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
+        public MainWindowViewModel()
+        {
+            SwitchViewCommand = new Commands.RelayCommand(OnSwitchCommandExcute);
+            CurrentViewContent = new YoutubeViewersView();
+        }
+
+        private void OnSwitchCommandExcute(object sender)
+        {
+            if (CurrentView == ActiveView.YoutubeViewers)
+            {
+                CurrentViewContent = new AddUserAccountView();
+                CurrentView = ActiveView.AddUserAccount;
             }
             else
             {
-                vm.CurrentViewContent = new YoutubeViewersView();
-                vm.CurrentView = ActiveView.YoutubeViewers;
+                CurrentViewContent = new YoutubeViewersView();
+                CurrentView = ActiveView.YoutubeViewers;
             }
-        });
+        }
+
     }
 }

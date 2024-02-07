@@ -7,12 +7,12 @@ using System.Windows.Input;
 
 namespace YoutubeViewers.Wpf.Commands
 {
-    internal class CommandsBase : ICommand
+    internal class RelayCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private readonly Action<object> _action;
 
-        public CommandsBase(Action<object> action)
+        public RelayCommand(Action<object> action)
         {
             _action = action;
         }

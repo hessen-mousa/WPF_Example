@@ -20,9 +20,6 @@ namespace YoutubeViewers.Wpf
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
-            ((MainWindowViewModel)this.DataContext).Instance = (MainWindowViewModel)this.DataContext;
-            ((MainWindowViewModel)this.DataContext).CurrentViewContent = new Views.YoutubeViewersView();
         }
     }
 }
